@@ -4,7 +4,7 @@ export const Container = styled.div``;
 
 export const Header = styled.header`
   padding: 32px 0;
-  background: #28262e;
+  background: #468faf;
 `;
 
 export const HeaderContent = styled.div`
@@ -38,8 +38,12 @@ export const HeaderContent = styled.div`
 export const Content = styled.main`
   max-width: 1120px;
   margin: 64px auto;
-  display: flex;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  h1 {
+    text-align: center;
+  }
 `;
 
 export const Table = styled.div``;
