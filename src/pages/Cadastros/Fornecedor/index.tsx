@@ -11,18 +11,20 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
 import Button from '../../../components/Button';
-import { Container, Content } from './stytes';
+import { Container, Content, Select } from './stytes';
 
 import getValidationErrors from '../../../utils/getValidationErros';
 import Input from '../../../components/Input';
 import api from '../../../services/api';
+import Combobox from '../../../components/Combobox';
 
 interface FornecedorFormData {
-  idEmpresa: number;
+  empresa: number;
   nome_fornecedor: string;
   cpf_cnpj: string;
-  data_hora_cadastrado: string;
+  data_hora_cadastro: string;
   telefone: string;
   tipo_pessoa: string;
   rg?: string;
@@ -31,13 +33,24 @@ interface FornecedorFormData {
 
 const CadastroFornecedor: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const [empresa, setEmpresa] = useState([]);
+  const [eempresa, setEmpresa] = useState([]);
+
+  const listTipoPessoas = [
+    {
+      id: 1,
+      tipo: 'Juridica',
+    },
+    {
+      id: 2,
+      tipo: 'Fisica',
+    },
+  ];
 
   const saveEmpresa = useCallback(async (data: FornecedorFormData) => {
     try {
       formRef.current?.setErrors({});
       const schema = Yup.object().shape({
-        idEmpresa: Yup.number()
+        empresa: Yup.number()
           .positive()
           .required('O campo Empresa é obrigatório'),
         nome_fornecedor: Yup.string().required(
@@ -53,9 +66,9 @@ const CadastroFornecedor: React.FC = () => {
           .max(13, 'Deve conter no mínimo 13 caractéres'),
         tipo_pessoa: Yup.string().required('O Tipo de Pessoa é obrigatório'),
         rg: Yup.string(),
-        data_nascimento: Yup.string()
-          .min(10, 'Deve conter no mínimo 10 caractéres')
-          .max(10, 'Deve conter no máximo 10 caractéres'),
+        data_nascimento: Yup.string(),
+        // .min(10, 'Deve conter no mínimo 10 caractéres')
+        // .max(10, 'Deve conter no máximo 10 caractéres'),
       });
 
       await schema.validate(data, {
@@ -63,7 +76,7 @@ const CadastroFornecedor: React.FC = () => {
       });
 
       const {
-        idEmpresa,
+        empresa,
         nome_fornecedor,
         cpf_cnpj,
         telefone,
@@ -72,11 +85,18 @@ const CadastroFornecedor: React.FC = () => {
         data_nascimento,
       } = data;
 
+      const now = new Date();
+      let { data_hora_cadastro } = data;
+
+      data_hora_cadastro = `${now.getDate()}/0${
+        now.getMonth() + 1
+      }/${now.getFullYear()} | ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
       const formData = {
-        idEmpresa,
+        empresa,
         nome_fornecedor,
         cpf_cnpj,
-        data_hora_cadastrado: new Date(),
+        data_hora_cadastro,
         telefone,
         tipo_pessoa,
         ...(rg && data_nascimento
@@ -88,7 +108,7 @@ const CadastroFornecedor: React.FC = () => {
       };
       console.log(formData);
 
-      // const response = await api.put('/fornecedores', formData);
+      // const response = await api.post('/fornecedores', formData);
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -109,7 +129,7 @@ const CadastroFornecedor: React.FC = () => {
       <Content>
         <Form ref={formRef} onSubmit={saveEmpresa}>
           <h1>Cadastro Fornecedor</h1>
-          <Input name="idEmpresa" placeholder="Empresa" icon={FiUser} />
+          <Combobox />
           <Input
             name="nome_fornecedor"
             placeholder="Nome do Fornecedor"
@@ -121,11 +141,15 @@ const CadastroFornecedor: React.FC = () => {
             placeholder="Telefone/Celular"
             icon={FiPhone}
           />
-          <Input
-            name="tipo_pessoa"
-            placeholder="Tipo de Pessoa"
-            icon={FiUsers}
-          />
+          <Select>
+            {listTipoPessoas.map(pessoa => {
+              return (
+                <option key={pessoa.id} value={pessoa.id}>
+                  {pessoa.tipo}
+                </option>
+              );
+            })}
+          </Select>
           <Input name="rg" placeholder="RG" icon={FiCreditCard} />
           <Input
             name="data_nascimento"
