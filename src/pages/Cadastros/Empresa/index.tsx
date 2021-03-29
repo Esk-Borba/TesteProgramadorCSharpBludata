@@ -1,11 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
-import {
-  FiArrowLeft,
-  FiCalendar,
-  FiCreditCard,
-  FiPhone,
-  FiUser,
-} from 'react-icons/fi';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FiArrowLeft, FiCompass, FiCreditCard, FiUser } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -75,24 +69,14 @@ const CadastroEmpresa: React.FC = () => {
       </header>
       <Content>
         <Form ref={formRef} onSubmit={saveEmpresa}>
-          <h1>Cadastro Fornecedor</h1>
+          <h1>Cadastro Empresa</h1>
+          <Input name="uf" placeholder="Unidade Federativa" icon={FiCompass} />
           <Input
-            name="nome_fornecedor"
-            placeholder="Nome do Fornecedor"
+            name="nome_fantasia"
+            placeholder="Nome Fantasia"
             icon={FiUser}
           />
-          <Input name="cpf_cnpj" placeholder="CPF/CNPJ" icon={FiUser} />
-          <Input
-            name="telefone"
-            placeholder="Telefone/Celular"
-            icon={FiPhone}
-          />
-          <Input name="rg" placeholder="RG" icon={FiCreditCard} />
-          <Input
-            name="data_nascimento"
-            placeholder="Data de Nascimento"
-            icon={FiCalendar}
-          />
+          <Input name="cnpj" placeholder="CNPJ" icon={FiCreditCard} />
         </Form>
       </Content>
     </Container>

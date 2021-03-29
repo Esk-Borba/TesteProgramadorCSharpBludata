@@ -36,6 +36,17 @@ export const Content = styled.div`
   margin: -73px 0 auto;
 
   width: 100%;
+
+  form {
+    p {
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      display: flex;
+
+      color: #c53030;
+    }
+  }
 `;
 
 export const Select = styled.select`

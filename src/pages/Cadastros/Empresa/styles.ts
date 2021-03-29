@@ -37,4 +37,8 @@ export const Content = styled.div`
   margin: -73px 0 auto;
 
   width: 100%;
+  form {
+    width: 334px;
+    text-align: center;
+  }
 `;
