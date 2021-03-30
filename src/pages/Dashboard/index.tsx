@@ -1,12 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from '../../components/Table';
-import api from '../../services/api';
 
 import { Container, Header, HeaderContent, Content } from './styles';
 
 const Dashboard: React.FC = () => {
-  const [data, setData] = useState([]);
   return (
     <Container>
       <Header>

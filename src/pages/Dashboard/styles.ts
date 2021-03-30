@@ -44,6 +44,7 @@ export const Content = styled.main`
   text-align: center;
   h1 {
     text-align: center;
+    margin-top: -60px;
   }
 `;
 
