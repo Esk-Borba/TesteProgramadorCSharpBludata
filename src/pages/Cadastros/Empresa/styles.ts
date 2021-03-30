@@ -34,11 +34,16 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: -73px 0 auto;
+  margin: 0 auto;
 
   width: 100%;
   form {
     width: 334px;
     text-align: center;
+
+    h1 {
+      margin-top: -73px;
+      margin-bottom: 48px;
+    }
   }
 `;

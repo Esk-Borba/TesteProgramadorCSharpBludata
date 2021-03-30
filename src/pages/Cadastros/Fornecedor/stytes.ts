@@ -38,6 +38,9 @@ export const Content = styled.div`
   width: 100%;
 
   form {
+    h1 {
+      margin-bottom: 42px;
+    }
     p {
       align-items: center;
       justify-content: center;

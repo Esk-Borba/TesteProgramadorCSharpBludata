@@ -5,6 +5,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Container, Content } from './styles';
+import Button from '../../../components/Button';
 
 import getValidationErrors from '../../../utils/getValidationErros';
 import Input from '../../../components/Input';
@@ -26,12 +27,11 @@ const CadastroEmpresa: React.FC = () => {
       const schema = Yup.object().shape({
         uf: Yup.string()
           .required('A Unidade Federal é obrigatória')
-          .max(2, 'O máximo de caracteres é 2')
-          .min(2, 'O minimo de caracteres é 2'),
+          .matches(/[A-Za-z\d@$!%*#?&]{2,}$/, 'Somente letras maiusculas'),
         nome_fantasia: Yup.string()
           .required('O Noma Fantasia da empresa é obrigatório')
           .min(2, 'O mínimmo de caractéres é 2'),
-        cpf_cnpj: Yup.string()
+        cnpj: Yup.string()
           .required('CPF ou CNPJ obrigatório')
           .min(9, 'O mínimo de digitos é de 9(CPF)')
           .max(14, 'O máximo de digitos é de 14(CNPJ)'),
@@ -49,7 +49,7 @@ const CadastroEmpresa: React.FC = () => {
         cnpj,
       };
 
-      const response = await api.put('/empresas', formData);
+      // const response = await api.put('/empresas', formData);
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -77,6 +77,7 @@ const CadastroEmpresa: React.FC = () => {
             icon={FiUser}
           />
           <Input name="cnpj" placeholder="CNPJ" icon={FiCreditCard} />
+          <Button type="submit">Cadastrar Empresa</Button>
         </Form>
       </Content>
     </Container>

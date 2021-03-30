@@ -50,6 +50,7 @@ export const Container = styled.div<ContainerProps>`
 
     &::placeholder {
       color: #ffff;
+      opacity: 0.7;
     }
   }
   svg {
